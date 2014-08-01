@@ -12,7 +12,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://wyze.github.io/x-imdb
 -->
-<polymer-element name="x-imdb" attributes="notitle">
+<polymer-element name="x-imdb" attributes="imdbid">
 
   <template>
 
@@ -33,12 +33,12 @@ Element providing solution to no problem in particular.
        */
 
       /**
-       * The `notitle` attribute does not yet have a purpose.
+       * The `imdbid` attribute does not yet have a purpose.
        *
-       * @attribute notitle
+       * @attribute imdbid
        * @type string
        */
-      notitle: '',
+      imdbid: '',
 
       /**
        * The `aProp` is a property that does something cool.
@@ -49,6 +49,9 @@ Element providing solution to no problem in particular.
       aProp: false,
 
       ready: function() {
+        // validate our required property
+        if ( !/^t{2}?\d{7}$/.test(this.imdbid) )
+          throw 'Please provide a proper IMDB ID.';
       },
 
       /**
