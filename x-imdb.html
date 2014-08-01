@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -19,6 +20,8 @@ Element providing solution to no problem in particular.
     <link rel="stylesheet" href="x-imdb.css" />
 
     <content></content>
+
+    <core-ajax id="ajax" handleAs="json" response="{{resp}}" url="http://omdbapi.com/"></core-ajax>
 
   </template>
 
@@ -49,9 +52,14 @@ Element providing solution to no problem in particular.
       aProp: false,
 
       ready: function() {
+        var $ajax = this.$.ajax;
+
         // validate our required property
         if ( !/^t{2}?\d{7}$/.test(this.imdbid) )
           throw 'Please provide a proper IMDB ID.';
+
+        $ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
+        $ajax.go();
       },
 
       /**
