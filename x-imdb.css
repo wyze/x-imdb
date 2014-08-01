@@ -1,4 +1,10 @@
 :host {
   display: block;
-  color: red;
+}
+
+label {
+  color: #2b2b2b;
+  display: inline-block;
+  font-weight: 500;
+  width: 50px;
 }
