@@ -1,7 +1,7 @@
 {
   "name": "x-imdb",
   "version": "0.0.0",
-  "keywords": "seed, polymer, web-components",
+  "keywords": "imdb, polymer, web-components",
   "main": "x-imdb.html",
   "dependencies": {
     "polymer": "Polymer/polymer#~0.3.1",
