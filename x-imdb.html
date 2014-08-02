@@ -16,7 +16,7 @@ Element to display information from IMDB.
 <polymer-element name="x-imdb" attributes="imdbid">
   <template>
     <link rel="stylesheet" href="x-imdb.css">
-    <core-ajax handleAs="json" response="{{resp}}" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
+    <core-ajax auto handleAs="json" response="{{resp}}" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
     <section></section>
   </template>
   <script>
@@ -38,7 +38,11 @@ Element to display information from IMDB.
         }
 
         this.ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
-        this.ajax.go();
+      },
+
+      attributeChanged: function( attr, old, value ) {
+        if ( attr === 'imdbid' )
+          this.ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
       },
 
       /**
@@ -52,6 +56,11 @@ Element to display information from IMDB.
       parseMovie: function( e, request ) {
         var movie   = request.response,
             section = this.q('section');
+
+        // clear the section
+        while( section.firstChild ) {
+          section.removeChild(section.firstChild);
+        }
 
         for( var prop in movie ) {
           var container = this.c('div'),

@@ -5,9 +5,39 @@
   <title>x-imdb Demo</title>
   <script src="../platform/platform.js"></script>
   <link rel="import" href="x-imdb.html">
+  <link rel="stylesheet" href="https://rawgit.com/necolas/css3-github-buttons/master/gh-buttons.css">
+  <style>
+    .button-group {
+      margin-bottom: 1em;
+    }
+  </style>
 </head>
 <body unresolved>
   <p>An `x-imdb` looks like this:</p>
+  <section class="button-group">
+    <button class="button active" data-imdbid="tt1285016">The Social Network</button>
+    <button class="button" data-imdbid="tt0218817">Antitrust</button>
+  </section>
   <x-imdb imdbid="tt1285016"></x-imdb>
+  <script>
+    (function() {
+      var buttons = document.querySelectorAll('button'),
+          imdb    = document.querySelector('x-imdb');
+
+      for( var i = 0, l = buttons.length; i < l; i++ ) {
+        var button = buttons[i];
+
+        buttons[i].addEventListener('click', function( e ) {
+          var active = document.querySelector('.active'),
+              target = e.target;
+
+          active.className  = active.className.replace(' active', '');
+          target.className += ' active';
+
+          imdb.setAttribute('imdbid', e.target.getAttribute('data-imdbid'));
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
