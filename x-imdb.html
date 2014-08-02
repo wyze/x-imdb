@@ -1,42 +1,26 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../core-ajax/core-ajax.html">
-
 <!--
-Element providing solution to no problem in particular.
+Element to display information from IMDB.
 
 ##### Example
 
-    <x-imdb></x-imdb>
+    <x-imdb imdbid="tt1285016"></x-imdb>
 
 @element x-imdb
-@blurb Element providing solution to no problem in particular.
+@blurb Element to display information from IMDB.
 @status alpha
+@author Neil Kistner
 @homepage http://wyze.github.io/x-imdb
 -->
 <polymer-element name="x-imdb" attributes="imdbid">
-
   <template>
-
-    <link rel="stylesheet" href="x-imdb.css" />
-
-    <content></content>
-
+    <link rel="stylesheet" href="x-imdb.css">
     <core-ajax handleAs="json" response="{{resp}}" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
-
     <section></section>
-
   </template>
-
   <script>
-
     Polymer('x-imdb', {
-      /**
-       * The `noevent` event is not actually fired from here,
-       * we document it as an example of documenting events.
-       *
-       * @event noevent
-       */
-
       /**
        * The `imdbid` attribute does not yet have a purpose.
        *
@@ -44,14 +28,6 @@ Element providing solution to no problem in particular.
        * @type string
        */
       imdbid: '',
-
-      /**
-       * The `aProp` is a property that does something cool.
-       *
-       * @property aProp
-       * @type bool
-       */
-      aProp: false,
 
       ready: function() {
         this.ajax = this.q('core-ajax');
@@ -111,20 +87,7 @@ Element providing solution to no problem in particular.
        */
       c: function( element ) {
         return document.createElement(element);
-      },
-
-      /**
-       * The `task` method does no work at this time.
-       *
-       * @method task
-       * @return {Object} Returns undefined.
-       * @param {String} dummy Serves no purpose today.
-       */
-      task: function(dummy) {
       }
-
     });
-
   </script>
-
 </polymer-element>
