@@ -21,9 +21,9 @@ Element providing solution to no problem in particular.
 
     <content></content>
 
-    <core-ajax id="ajax" handleAs="json" response="{{resp}}" url="http://omdbapi.com/"></core-ajax>
+    <core-ajax handleAs="json" response="{{resp}}" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
 
-    <label>Title</label><span>{{resp.Title}}</span>
+    <section></section>
 
   </template>
 
@@ -54,14 +54,63 @@ Element providing solution to no problem in particular.
       aProp: false,
 
       ready: function() {
-        var $ajax = this.$.ajax;
+        this.ajax = this.q('core-ajax');
 
         // validate our required property
-        if ( !/^t{2}?\d{7}$/.test(this.imdbid) )
+        if ( !/^t{2}?\d{7}$/.test(this.imdbid) ) {
           throw 'Please provide a proper IMDB ID.';
+        }
 
-        $ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
-        $ajax.go();
+        this.ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
+        this.ajax.go();
+      },
+
+      /**
+       * The `parseMovie` method will parse the response from OMDB API.
+       *
+       * @method parseMovie
+       * @return {Object} Returns undefined.
+       * @param {Object} e Event object for the core-ajax element.
+       * @param {Object} request Object containing the response and XHR.
+       */
+      parseMovie: function( e, request ) {
+        var movie   = request.response,
+            section = this.q('section');
+
+        for( var prop in movie ) {
+          var container = this.c('div'),
+              label     = this.c('label'),
+              span      = this.c('span');
+
+          label.innerHTML = prop;
+          span.innerHTML = movie[prop];
+
+          container.appendChild(label);
+          container.appendChild(span);
+          section.appendChild(container);
+        }
+      },
+
+      /**
+       * The `q` method is a shortcut for document.querySelector.
+       *
+       * @method q
+       * @return {Object} Returns DOMNode.
+       * @param {String} selector A valid CSS3 selector.
+       */
+      q: function( selector ) {
+        return this.shadowRoot.querySelector(selector);
+      },
+
+      /**
+       * The `c` method is a shortcut to create a dom node.
+       *
+       * @method c
+       * @return {Object} Returns DOMNode.
+       * @param {String} element TagName of the element to create.
+       */
+      c: function( element ) {
+        return document.createElement(element);
       },
 
       /**
