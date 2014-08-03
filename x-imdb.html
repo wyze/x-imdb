@@ -13,11 +13,14 @@ Element to display information from IMDB.
 @author Neil Kistner
 @homepage http://wyze.github.io/x-imdb
 -->
-<polymer-element name="x-imdb" attributes="imdbid">
+<polymer-element name="x-imdb" attributes="imdbid layout">
   <template>
-    <link rel="stylesheet" href="x-imdb.css">
     <core-ajax auto handleAs="json" response="{{resp}}" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
-    <section></section>
+    <link rel="stylesheet" href="x-imdb.css">
+
+    <template if="{{ layout == 'debug' }}">
+      <section></section>
+    </template>
   </template>
   <script>
     Polymer('x-imdb', {
@@ -28,6 +31,14 @@ Element to display information from IMDB.
        * @type string
        */
       imdbid: '',
+
+      /**
+       * The `layout` attribute defines how to render the response.
+       *
+       * @attribute layout
+       * @type string
+       */
+      layout: 'debug',
 
       ready: function() {
         this.ajax = this.q('core-ajax');
@@ -54,25 +65,34 @@ Element to display information from IMDB.
        * @param {Object} request Object containing the response and XHR.
        */
       parseMovie: function( e, request ) {
-        var movie   = request.response,
-            section = this.q('section');
-
-        // clear the section
-        while( section.firstChild ) {
-          section.removeChild(section.firstChild);
+        if ( this.layouts[this.layout] ) {
+          this.layouts[this.layout].call(this, request.response);
+        } else {
+          this.layouts.debug.call(this, request.response);
         }
+      },
 
-        for( var prop in movie ) {
-          var container = this.c('div'),
-              label     = this.c('label'),
-              span      = this.c('span');
+      layouts: {
+        debug: function( movie ) {
+          var section = this.q('section');
 
-          label.innerHTML = prop;
-          span.innerHTML = movie[prop];
+          // clear the section
+          while( section.firstChild ) {
+            section.removeChild(section.firstChild);
+          }
 
-          container.appendChild(label);
-          container.appendChild(span);
-          section.appendChild(container);
+          for( var prop in movie ) {
+            var container = this.c('div'),
+                label     = this.c('label'),
+                span      = this.c('span');
+
+            label.innerHTML = prop;
+            span.innerHTML = movie[prop];
+
+            container.appendChild(label);
+            container.appendChild(span);
+            section.appendChild(container);
+          }
         }
       },
 
