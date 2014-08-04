@@ -1,6 +1,6 @@
 {
   "name": "x-imdb",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "keywords": "imdb, polymer, web-components",
   "main": "x-imdb.html",
   "dependencies": {
