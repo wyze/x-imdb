@@ -8,3 +8,18 @@ label {
   font-weight: 600;
   width: 90px;
 }
+
+img {
+  transition: .5s all ease;
+  margin-right: 10px;
+  float: left;
+}
+
+img:hover {
+  width: 200px;
+}
+
+p {
+  text-indent: 10px;
+  width: 400px;
+}

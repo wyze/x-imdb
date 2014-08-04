@@ -5,7 +5,7 @@ Element to display information from IMDB.
 
 ##### Example
 
-    <x-imdb imdbid="tt1285016"></x-imdb>
+    <x-imdb></x-imdb>
 
 @element x-imdb
 @blurb Element to display information from IMDB.
@@ -20,6 +20,12 @@ Element to display information from IMDB.
 
     <template if="{{ layout == 'debug' }}">
       <section></section>
+    </template>
+
+    <template if="{{ layout == 'basic' }}" bind="{{ movie }}">
+      <img src="{{ Poster }}" alt="{{ Title }} ({{ Year }})" width="100">
+      <h2>{{ Title }} ({{ Year }})</h2>
+      <p>{{ Plot }}</p>
     </template>
   </template>
   <script>
@@ -93,6 +99,9 @@ Element to display information from IMDB.
             container.appendChild(span);
             section.appendChild(container);
           }
+        },
+        basic: function( movie ) {
+          this.movie = movie;
         }
       },
 
