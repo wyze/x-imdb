@@ -4,7 +4,7 @@
   "description": "A Polymer element to display information from IMDB.",
   "homepage": "http://wyze.github.io/x-imdb",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "imdb",
     "polymer",
