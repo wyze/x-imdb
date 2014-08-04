@@ -60,6 +60,12 @@ Element to display information from IMDB.
       attributeChanged: function( attr, old, value ) {
         if ( attr === 'imdbid' )
           this.ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
+
+        if ( attr === 'layout' )
+          // temp setTimeout until debug template can be rewritten
+          setTimeout(function() {
+            this.layouts[value].call(this, this.movie);
+          }.bind(this), 100);
       },
 
       /**
@@ -71,15 +77,17 @@ Element to display information from IMDB.
        * @param {Object} request Object containing the response and XHR.
        */
       parseMovie: function( e, request ) {
+        this.movie = request.response;
+
         if ( this.layouts[this.layout] ) {
-          this.layouts[this.layout].call(this, request.response);
+          this.layouts[this.layout].call(this);
         } else {
-          this.layouts.debug.call(this, request.response);
+          this.layouts.debug.call(this);
         }
       },
 
       layouts: {
-        debug: function( movie ) {
+        debug: function() {
           var section = this.q('section');
 
           // clear the section
@@ -87,21 +95,21 @@ Element to display information from IMDB.
             section.removeChild(section.firstChild);
           }
 
-          for( var prop in movie ) {
+          for( var prop in this.movie ) {
             var container = this.c('div'),
                 label     = this.c('label'),
                 span      = this.c('span');
 
             label.innerHTML = prop;
-            span.innerHTML = movie[prop];
+            span.innerHTML = this.movie[prop];
 
             container.appendChild(label);
             container.appendChild(span);
             section.appendChild(container);
           }
         },
-        basic: function( movie ) {
-          this.movie = movie;
+        basic: function() {
+          // empty for now
         }
       },
 

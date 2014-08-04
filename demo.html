@@ -7,8 +7,8 @@
   <link rel="import" href="x-imdb.html">
   <link rel="stylesheet" href="https://rawgit.com/necolas/css3-github-buttons/master/gh-buttons.css">
   <style>
-    .button-group {
-      margin-bottom: 1em;
+    section {
+      margin-bottom: 1em !important;
     }
   </style>
 </head>
@@ -18,10 +18,18 @@
     <button class="button active" data-imdbid="tt1285016">The Social Network</button>
     <button class="button" data-imdbid="tt0218817">Antitrust</button>
   </section>
+  <section>
+    <label>Layout</label>
+    <select>
+      <option data-layout="debug" selected>Debug</option>
+      <option data-layout="basic">Basic</option>
+    </select>
+  </section>
   <x-imdb imdbid="tt1285016"></x-imdb>
   <script>
     (function() {
       var buttons = document.querySelectorAll('button'),
+          select  = document.querySelector('select'),
           imdb    = document.querySelector('x-imdb');
 
       for( var i = 0, l = buttons.length; i < l; i++ ) {
@@ -37,6 +45,12 @@
           imdb.setAttribute('imdbid', e.target.getAttribute('data-imdbid'));
         });
       }
+
+      select.addEventListener('change', function() {
+        imdb.setAttribute('layout',
+          select.options[select.selectedIndex].getAttribute('data-layout')
+        );
+      });
     })();
   </script>
 </body>
