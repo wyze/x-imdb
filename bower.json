@@ -5,7 +5,11 @@
   "homepage": "http://wyze.github.io/x-imdb",
   "license": "MIT",
   "version": "0.0.1",
-  "keywords": "imdb, polymer, web-components",
+  "keywords": [
+    "imdb",
+    "polymer",
+    "web-components"
+  ],
   "main": "x-imdb.html",
   "ignore": [
     "**/.*",
