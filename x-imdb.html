@@ -15,11 +15,15 @@ Element to display information from IMDB.
 -->
 <polymer-element name="x-imdb" attributes="imdbid layout">
   <template>
-    <core-ajax auto handleAs="json" response="{{resp}}" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
+    <core-ajax auto handleAs="json" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
     <link rel="stylesheet" href="x-imdb.css">
 
-    <template if="{{ layout == 'debug' }}">
-      <section></section>
+    <template if="{{ layout == 'debug' }}" repeat="{{ debugged }}">
+      <!-- <section>{{ length }}</section> -->
+      <div>
+        <label>{{ label }}</label>
+        <span>{{ value }}</span>
+      </div>
     </template>
 
     <template if="{{ layout == 'basic' }}" bind="{{ movie }}">
@@ -88,24 +92,13 @@ Element to display information from IMDB.
 
       layouts: {
         debug: function() {
-          var section = this.q('section');
+          this.debugged = [];
 
-          // clear the section
-          while( section.firstChild ) {
-            section.removeChild(section.firstChild);
-          }
-
-          for( var prop in this.movie ) {
-            var container = this.c('div'),
-                label     = this.c('label'),
-                span      = this.c('span');
-
-            label.innerHTML = prop;
-            span.innerHTML = this.movie[prop];
-
-            container.appendChild(label);
-            container.appendChild(span);
-            section.appendChild(container);
+          for ( var prop in this.movie ) {
+            this.debugged.push({
+              label: prop,
+              value: this.movie[prop]
+            });
           }
         },
         basic: function() {
