@@ -13,7 +13,7 @@ A Polymer element to display information from IMDB.
 Using [Bower](http://bower.io), run:
 
 ```shell
-bower install x-imdb
+bower install x-imdb --save
 ```
 
 ## Usage
@@ -52,7 +52,7 @@ In order to run it locally you'll need a basic server setup.
 2. Install [GruntJS](http://gruntjs.com/):
 
     ```sh
-    $ [sudo] npm install -g grunt-cli
+    $ npm install -g grunt-cli
     ```
 
 3. Install local dependencies:
@@ -72,6 +72,7 @@ In order to run it locally you'll need a basic server setup.
 Attribute | Options  | Default | Description
 ---       | ---      | ---     | ---
 `imdbid`  | *string* | `null`  | The IMDB ID of the movie to display.
+`layout`  | *string* | `debug` | Changes the way the data is displayed.
 
 
 ## Contributing
