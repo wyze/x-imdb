@@ -68,7 +68,9 @@ Element to display information from IMDB.
         if ( attr === 'layout' )
           // temp setTimeout until debug template can be rewritten
           setTimeout(function() {
-            this.layouts[value].call(this, this.movie);
+            if ( this.layouts[value] ) {
+              this.layouts[value].call(this, this.movie);
+            }
           }.bind(this), 100);
       },
 
@@ -85,8 +87,6 @@ Element to display information from IMDB.
 
         if ( this.layouts[this.layout] ) {
           this.layouts[this.layout].call(this);
-        } else {
-          this.layouts.debug.call(this);
         }
       },
 
@@ -100,9 +100,6 @@ Element to display information from IMDB.
               value: this.movie[prop]
             });
           }
-        },
-        basic: function() {
-          // empty for now
         }
       },
 
