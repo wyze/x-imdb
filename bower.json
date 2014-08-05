@@ -1,6 +1,8 @@
 {
   "name": "x-imdb",
-  "author": "Neil Kistner",
+  "authors": [
+    "Neil Kistner <neil.kistner@gmail.com>"
+  ],
   "description": "A Polymer element to display information from IMDB.",
   "homepage": "http://wyze.github.io/x-imdb",
   "license": "MIT",
