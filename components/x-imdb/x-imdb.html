@@ -1,0 +1,129 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<!--
+Element to display information from IMDB.
+
+##### Example
+
+    <x-imdb></x-imdb>
+
+@element x-imdb
+@blurb Element to display information from IMDB.
+@status alpha
+@author Neil Kistner
+@homepage http://wyze.github.io/x-imdb
+-->
+<polymer-element name="x-imdb" attributes="imdbid layout">
+  <template>
+    <core-ajax auto handleAs="json" url="http://omdbapi.com/" on-core-response="{{parseMovie}}"></core-ajax>
+    <link rel="stylesheet" href="x-imdb.css">
+
+    <template if="{{ layout == 'debug' }}" repeat="{{ debugged }}">
+      <!-- <section>{{ length }}</section> -->
+      <div>
+        <label>{{ label }}</label>
+        <span>{{ value }}</span>
+      </div>
+    </template>
+
+    <template if="{{ layout == 'basic' }}" bind="{{ movie }}">
+      <img src="{{ Poster }}" alt="{{ Title }} ({{ Year }})" width="100">
+      <h2>{{ Title }} ({{ Year }})</h2>
+      <p>{{ Plot }}</p>
+    </template>
+  </template>
+  <script>
+    Polymer('x-imdb', {
+      /**
+       * The `imdbid` attribute is the IMDB ID of the movie to display.
+       *
+       * @attribute imdbid
+       * @type string
+       */
+      imdbid: '',
+
+      /**
+       * The `layout` attribute defines how to render the response.
+       *
+       * @attribute layout
+       * @type string
+       */
+      layout: 'debug',
+
+      ready: function() {
+        this.ajax = this.q('core-ajax');
+
+        // validate our required property
+        if ( !/^t{2}?\d{7}$/.test(this.imdbid) ) {
+          throw 'Please provide a proper IMDB ID.';
+        }
+
+        this.ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
+      },
+
+      attributeChanged: function( attr, old, value ) {
+        if ( attr === 'imdbid' )
+          this.ajax.params = { "i": this.imdbid.replace(/^([^tt])/, 'tt$1') };
+
+        if ( attr === 'layout' )
+          // temp setTimeout until debug template can be rewritten
+          setTimeout(function() {
+            if ( this.layouts[value] ) {
+              this.layouts[value].call(this, this.movie);
+            }
+          }.bind(this), 100);
+      },
+
+      /**
+       * The `parseMovie` method will parse the response from OMDB API.
+       *
+       * @method parseMovie
+       * @return {Object} Returns undefined.
+       * @param {Object} e Event object for the core-ajax element.
+       * @param {Object} request Object containing the response and XHR.
+       */
+      parseMovie: function( e, request ) {
+        this.movie = request.response;
+
+        if ( this.layouts[this.layout] ) {
+          this.layouts[this.layout].call(this);
+        }
+      },
+
+      layouts: {
+        debug: function() {
+          this.debugged = [];
+
+          for ( var prop in this.movie ) {
+            this.debugged.push({
+              label: prop,
+              value: this.movie[prop]
+            });
+          }
+        }
+      },
+
+      /**
+       * The `q` method is a shortcut for document.querySelector.
+       *
+       * @method q
+       * @return {Object} Returns DOMNode.
+       * @param {String} selector A valid CSS3 selector.
+       */
+      q: function( selector ) {
+        return this.shadowRoot.querySelector(selector);
+      },
+
+      /**
+       * The `c` method is a shortcut to create a dom node.
+       *
+       * @method c
+       * @return {Object} Returns DOMNode.
+       * @param {String} element TagName of the element to create.
+       */
+      c: function( element ) {
+        return document.createElement(element);
+      }
+    });
+  </script>
+</polymer-element>

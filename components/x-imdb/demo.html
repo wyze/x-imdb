@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>x-imdb Demo</title>
+  <script src="../platform/platform.js"></script>
+  <link rel="import" href="x-imdb.html">
+  <link rel="import" href="../font-roboto/roboto.html">
+  <link rel="import" href="../paper-elements/paper-elements.html">
+  <style>
+    section {
+      margin-bottom: 1em !important;
+    }
+
+    h4 {
+      margin: .5em 0;
+    }
+
+    paper-radio-button,
+    paper-button,
+    h4 {
+      font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+    }
+
+    paper-button {
+      text-transform: capitalize;
+    }
+
+    paper-button.active {
+      background: #4285f4;
+      color: #fff;
+    }
+
+    paper-button + paper-button {
+      margin-left: .5em;
+    }
+
+    paper-radio-group.blue paper-radio-button::shadow #ink[checked] {
+      color: #4285f4;
+    }
+
+    paper-radio-group.blue paper-radio-button::shadow #onRadio {
+      background-color: #4285f4;
+    }
+  </style>
+</head>
+<body unresolved>
+  <p>An `x-imdb` looks like this:</p>
+  <section>
+    <paper-button raisedButton label="The Social Network" data-imdbid="tt1285016" class="active"></paper-button>
+    <paper-button raisedButton label="Antitrust" data-imdbid="tt0218817"></paper-button>
+  </section>
+  <section>
+    <h4>Layout</h4>
+    <paper-radio-group class="blue" selected="0">
+      <paper-radio-button label="Debug" data-layout="debug"></paper-radio-button>
+      <paper-radio-button label="Basic" data-layout="basic"></paper-radio-button>
+    </paper-radio-group>
+  </section>
+  <x-imdb imdbid="tt1285016"></x-imdb>
+  <script>
+    (function() {
+      var buttons = document.querySelectorAll('paper-button'),
+          radios  = document.querySelectorAll('paper-radio-button'),
+          imdb    = document.querySelector('x-imdb');
+
+      for( var i = 0, l = buttons.length; i < l; i++ ) {
+        buttons[i].addEventListener('click', function( e ) {
+          var active = document.querySelector('.active'),
+              target = e.target;
+
+          active.className  = active.className.replace('active', '');
+          target.className += 'active';
+
+          imdb.setAttribute('imdbid', e.target.getAttribute('data-imdbid'));
+        });
+      }
+
+      for ( var i = 0, l = radios.length; i < l; i++ ) {
+        radios[i].addEventListener('click', function( e ) {
+          imdb.setAttribute('layout', e.target.getAttribute('data-layout'));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

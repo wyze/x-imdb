@@ -1,0 +1,37 @@
+{
+  "name": "x-imdb",
+  "authors": [
+    "Neil Kistner <neil.kistner@gmail.com>"
+  ],
+  "description": "A Polymer element to display information from IMDB.",
+  "homepage": "http://wyze.github.io/x-imdb",
+  "license": "MIT",
+  "keywords": [
+    "imdb",
+    "polymer",
+    "web-components"
+  ],
+  "main": "x-imdb.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.1",
+    "core-ajax": "Polymer/core-ajax#~0.3.4",
+    "paper-elements": "Polymer/paper-elements#~0.3.4"
+  },
+  "_release": "4796be56d0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "4796be56d0d4929f54a65d85684f7687f21e7a2d"
+  },
+  "_source": "git://github.com/wyze/x-imdb.git",
+  "_target": "master",
+  "_originalSource": "wyze/x-imdb",
+  "_direct": true
+}

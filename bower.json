@@ -1,0 +1,7 @@
+{
+  "name": "x-imdb#gh-pages",
+  "private": true,
+  "dependencies": {
+    "x-imdb": "wyze/x-imdb#master"
+  }
+}
